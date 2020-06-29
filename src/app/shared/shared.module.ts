@@ -1,17 +1,21 @@
-import { NgModule } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {NgModule} from '@angular/core';
+import {CommonModule} from '@angular/common';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 
-import { FilterTextboxModule } from './filter-textbox/filter-textbox.module';
-import { PaginationModule } from './pagination/pagination.module';
+import {FilterTextboxModule} from './filter-textbox/filter-textbox.module';
+import {PaginationModule} from './pagination/pagination.module';
 
-import { CapitalizePipe } from './pipes/capitalize.pipe';
-import { TrimPipe } from './pipes/trim.pipe';
-import { SortByDirective } from './directives/sortby.directive';
+import {CapitalizePipe} from './pipes/capitalize.pipe';
+import {TrimPipe} from './pipes/trim.pipe';
+import {SortByDirective} from './directives/sortby.directive';
+import {MaterialModule} from './material.module';
+import {OrderModule} from './order/order.module';
 
 @NgModule({
-  imports: [CommonModule, FilterTextboxModule, PaginationModule ],
-  exports: [ CommonModule, FormsModule, CapitalizePipe, TrimPipe, SortByDirective, FilterTextboxModule, PaginationModule ],
-  declarations: [ CapitalizePipe, TrimPipe, SortByDirective ]
+    imports     : [CommonModule, FormsModule, FilterTextboxModule, PaginationModule, OrderModule, MaterialModule, ReactiveFormsModule],
+    exports     : [CommonModule, FormsModule, CapitalizePipe, TrimPipe, SortByDirective,
+        FilterTextboxModule, PaginationModule, OrderModule, MaterialModule, ReactiveFormsModule],
+    declarations: [CapitalizePipe, TrimPipe, SortByDirective]
 })
-export class SharedModule { }
+export class SharedModule {
+}

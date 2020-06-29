@@ -1,5 +1,4 @@
-import { ModuleWithProviders } from '@angular/core';
-import { Routes } from '@angular/router';
+import {FormGroup} from '@angular/forms';
 
 export interface ICustomer {
     id: number;
@@ -50,4 +49,10 @@ export interface IUserLogin {
 export interface IApiResponse {
     status: boolean;
     error?: string;
+}
+
+export interface IOrderDialog {
+    form: FormGroup;
+    products: IOrderItem[];
+    customerName: string;
 }

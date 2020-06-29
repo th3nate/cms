@@ -3,9 +3,9 @@ html {
     overflow-x: hidden;
 }
 
-body {
-    font-family: 'Open Sans'
-}
+html, body { height: 100%; }
+
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 main {
     position: relative;
@@ -29,10 +29,6 @@ th {
 
 .toolbar-item a {
   cursor: pointer;
-}
-
-.orders-table {
-    width:50%;
 }
 
 .orders-table td {

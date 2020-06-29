@@ -22,6 +22,7 @@
               "src/favicon.ico"
             ],
             "styles": [
+              "src/assets/custom-theme.scss",
               "src/styles.css"
             ],
             "scripts": []
@@ -75,11 +76,9 @@
             "main": "src/test.ts",
             "karmaConfig": "./karma.conf.js",
             "polyfills": "src/polyfills.ts",
-            "tsConfig": "src/tsconfig.spec.json",
+            "tsConfig": "./tsconfig.spec.json",
             "scripts": [],
-            "styles": [
-
-            ],
+            "styles": [],
             "assets": [
               "src/assets",
               "src/favicon.ico"

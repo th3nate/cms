@@ -17,10 +17,11 @@ import { EnsureModuleLoadedOnceGuard } from './ensure-module-loaded-once.guard';
 import { AuthService } from './services/auth.service';
 import { EventBusService } from './services/event-bus.service';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
-  imports: [CommonModule, RouterModule, HttpClientModule, GrowlerModule, ModalModule, OverlayModule],
-  exports: [GrowlerModule, RouterModule, HttpClientModule, ModalModule, OverlayModule, NavbarComponent],
+  imports: [CommonModule, RouterModule, HttpClientModule, GrowlerModule, ModalModule, OverlayModule, BrowserAnimationsModule],
+  exports: [GrowlerModule, RouterModule, HttpClientModule, ModalModule, OverlayModule, NavbarComponent, BrowserAnimationsModule],
   declarations: [NavbarComponent],
   providers: [SorterService, FilterService, DataService, TrackByService,
     DialogService, AuthService, EventBusService,

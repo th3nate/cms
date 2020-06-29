@@ -1,86 +1,95 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import {Injectable} from '@angular/core';
+import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 
-import { Observable } from 'rxjs';
-import { map, catchError } from 'rxjs/operators';
+import {Observable} from 'rxjs';
+import {map, catchError} from 'rxjs/operators';
 
-import { ICustomer, IOrder, IState, IPagedResults, IApiResponse } from '../../shared/interfaces';
-import { UtilitiesService } from './utilities.service';
+import {ICustomer, IOrder, IState, IPagedResults, IApiResponse, IOrderItem} from '../../shared/interfaces';
+import {UtilitiesService} from './utilities.service';
 
 @Injectable()
 export class DataService {
-    baseUrl = this.utilitiesService.getApiUrl();
+    baseUrl          = this.utilitiesService.getApiUrl();
     customersBaseUrl = this.baseUrl + '/api/customers';
-    ordersBaseUrl = this.baseUrl + '/api/orders';
-    orders: IOrder[];
-    states: IState[];
+    productsBaseUrl  = this.baseUrl + '/api/products';
 
-    constructor(private http: HttpClient, private utilitiesService: UtilitiesService) {  }
+    constructor(private http: HttpClient, private utilitiesService: UtilitiesService) {
+    }
 
     getCustomersPage(page: number, pageSize: number): Observable<IPagedResults<ICustomer[]>> {
         return this.http.get<ICustomer[]>(
-            `${this.customersBaseUrl}/page/${page}/${pageSize}`,
-            { observe: 'response' })
-            .pipe(
-                map(res => {
-                    const totalRecords = +res.headers.get('X-InlineCount');
-                    const customers = res.body as ICustomer[];
-                    this.calculateCustomersOrderTotal(customers);
-                    return {
-                        results: customers,
-                        totalRecords: totalRecords
-                    };
-                }),
-                catchError(this.handleError)
-            );
+                `${this.customersBaseUrl}/page/${page}/${pageSize}`,
+                {observe: 'response'})
+                .pipe(
+                        map(res => {
+                            const totalRecords = +res.headers.get('X-InlineCount');
+                            const customers    = res.body as ICustomer[];
+                            this.calculateCustomersOrderTotal(customers);
+                            return {
+                                results     : customers,
+                                totalRecords: totalRecords
+                            };
+                        }),
+                        catchError(this.handleError)
+                );
     }
 
     getCustomers(): Observable<ICustomer[]> {
         return this.http.get<ICustomer[]>(this.customersBaseUrl)
-            .pipe(
-                map(customers => {
-                    this.calculateCustomersOrderTotal(customers);
-                    return customers;
-                }),
-                catchError(this.handleError)
-            );
+                .pipe(
+                        map(customers => {
+                            this.calculateCustomersOrderTotal(customers);
+                            return customers;
+                        }),
+                        catchError(this.handleError)
+                );
+    }
+
+    getProducts(): Observable<IOrder[]> {
+        return this.http.get<IOrder[]>(this.productsBaseUrl)
+                .pipe(
+                        map(products => {
+                            return products;
+                        }),
+                        catchError(this.handleError)
+                );
     }
 
     getCustomer(id: number): Observable<ICustomer> {
         return this.http.get<ICustomer>(this.customersBaseUrl + '/' + id)
-            .pipe(
-                map(customer => {
-                    this.calculateCustomersOrderTotal([customer]);
-                    return customer;
-                }),
-                catchError(this.handleError)
-            );
+                .pipe(
+                        map(customer => {
+                            this.calculateCustomersOrderTotal([customer]);
+                            return customer;
+                        }),
+                        catchError(this.handleError)
+                );
     }
 
     insertCustomer(customer: ICustomer): Observable<ICustomer> {
         return this.http.post<ICustomer>(this.customersBaseUrl, customer)
-            .pipe(catchError(this.handleError));
+                .pipe(catchError(this.handleError));
     }
 
     updateCustomer(customer: ICustomer): Observable<boolean> {
         return this.http.put<IApiResponse>(this.customersBaseUrl + '/' + customer.id, customer)
-            .pipe(
-                map(res => res.status),
-                catchError(this.handleError)
-            );
+                .pipe(
+                        map(res => res.status),
+                        catchError(this.handleError)
+                );
     }
 
     deleteCustomer(id: number): Observable<boolean> {
         return this.http.delete<IApiResponse>(this.customersBaseUrl + '/' + id)
-            .pipe(
-                map(res => res.status),
-                catchError(this.handleError)
-            );
+                .pipe(
+                        map(res => res.status),
+                        catchError(this.handleError)
+                );
     }
 
     getStates(): Observable<IState[]> {
         return this.http.get<IState[]>(this.baseUrl + '/api/states')
-            .pipe(catchError(this.handleError));
+                .pipe(catchError(this.handleError));
     }
 
     private handleError(error: HttpErrorResponse) {
@@ -106,6 +115,14 @@ export class DataService {
         }
     }
 
+    calculateOrdersaTotal(orders: IOrder[]): number {
+        let total = 0;
+        for (const order of orders) {
+            total += order.itemCost;
+        }
+        return total;
+    }
+
     // Not using now but leaving since they show how to create
     // and work with custom observables
 
@@ -118,6 +135,6 @@ export class DataService {
     //         observer.complete();
     //     });
     // }
-    
+
 
 }
