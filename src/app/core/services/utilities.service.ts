@@ -1,12 +1,17 @@
-import { Injectable, Inject } from '@angular/core';
+import {Injectable, Inject} from '@angular/core';
+import {environment} from '../../../environments/environment';
 
-@Injectable({ providedIn: 'root' })
-export class UtilitiesService {    
-    constructor(@Inject('Window') private window: Window) { }
+@Injectable({providedIn: 'root'})
+export class UtilitiesService {
+    constructor(@Inject('Window') private window: Window) {
+    }
 
     getApiUrl() {
         const port = this.getPort();
-        return `${this.window.location.protocol}//${this.window.location.hostname}${port}`;
+        if (environment.production) {
+            return `${environment.baseUrl}`;
+        }
+        return `${environment.baseUrl}${port}`;
     }
 
     private getPort() {
@@ -19,8 +24,7 @@ export class UtilitiesService {
             }
             // Running with local node (which serves Angular and the API)
             return ':' + this.window.location.port;
-        }
-        else {
+        } else {
             // for running locally with Docker/Kubernetes
             if (this.window.location.hostname === 'localhost') {
                 return ':8080';
