@@ -10,6 +10,7 @@ import {TrackByService} from '../core/services/trackby.service';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatSelectModule} from '@angular/material/select';
 import {MatInputModule} from '@angular/material/input';
+import {BrowserModule} from '@angular/platform-browser';
 
 describe('Orders Component', () => {
     const customers: ICustomer[] = require('../../../data/customers.json');
@@ -36,8 +37,9 @@ describe('Orders Component', () => {
         TestBed.configureTestingModule({
             imports  : [DialogTestModule],
             providers: [
-                ReactiveFormsModule,
+                BrowserModule,
                 FormsModule,
+                ReactiveFormsModule,
                 MatFormFieldModule,
                 MatSelectModule,
                 MatInputModule,
@@ -69,7 +71,7 @@ describe('Orders Component', () => {
 
         noop.detectChanges(); // Updates the dialog in the overlay
 
-        const h2     = overlayContainerElement.querySelector('#mat-dialog-title-0');
+        const h2     = overlayContainerElement.querySelector('.mat-dialog-title');
         const form   = overlayContainerElement.querySelector('form');
         const button = overlayContainerElement.querySelectorAll('button');
 
@@ -114,8 +116,27 @@ const TEST_DIRECTIVES = [
 ];
 
 @NgModule({
-    imports        : [MatDialogModule, NoopAnimationsModule],
-    exports        : TEST_DIRECTIVES,
+    imports        : [
+        MatDialogModule,
+        NoopAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
+    exports        : [
+        ...TEST_DIRECTIVES,
+        MatDialogModule,
+        NoopAnimationsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatSelectModule,
+        BrowserModule,
+        FormsModule,
+        ReactiveFormsModule
+    ],
     declarations   : TEST_DIRECTIVES,
     entryComponents: [
         OrderComponent

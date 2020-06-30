@@ -108,6 +108,7 @@
         "e2e": {
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
+            "port": 8080,
             "protractorConfig": "./protractor.conf.js",
             "devServerTarget": "angular-jumpstart:serve"
           }
